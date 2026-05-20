@@ -11,6 +11,7 @@ import {
 import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { getCarById, createBooking } from "@/lib/cars/data";
+import { Spinner } from "@heroui/react";
 
 export default function CarDetailsPage({ params }) {
     const router = useRouter();
@@ -143,7 +144,7 @@ export default function CarDetailsPage({ params }) {
     if (loading) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-zinc-950 py-24 gap-4">
-                <span className="loading loading-spinner loading-lg text-purple-600"></span>
+                <Spinner color="secondary" size="lg" />
                 <p className="text-xs font-bold text-base-content/40 tracking-wider animate-pulse">
                     Loading vehicle specifications...
                 </p>
@@ -487,9 +488,9 @@ export default function CarDetailsPage({ params }) {
                                 <button 
                                     type="submit"
                                     disabled={bookingLoading}
-                                    className="btn flex-1 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-12 border-0 cursor-pointer shadow-lg shadow-purple-500/10"
+                                    className="btn flex-1 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-12 border-0 cursor-pointer shadow-lg shadow-purple-500/10 animate-fade-in"
                                 >
-                                    {bookingLoading ? <span className="loading loading-spinner"></span> : "Confirm Booking"}
+                                    {bookingLoading ? <Spinner color="white" size="sm" /> : "Confirm Booking"}
                                 </button>
                             </div>
                         </form>

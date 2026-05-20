@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import { Search, SlidersHorizontal, RotateCcw, Sparkles, Filter, X } from "lucide-react";
 import { getCars } from "@/lib/cars/data";
+import { Spinner } from "@heroui/react";
 
 const ExploreCarsContent = () => {
     const router = useRouter();
@@ -259,7 +260,7 @@ const ExploreCarsContent = () => {
 
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-32 gap-4 bg-base-100 rounded-3xl border border-base-200/50 shadow-md">
-                    <span className="loading loading-spinner loading-lg text-purple-600 scale-125"></span>
+                    <Spinner color="secondary" size="lg" />
                     <p className="text-sm font-bold text-base-content/40 tracking-wider animate-pulse">
                         Loading our elite fleet...
                     </p>
@@ -296,7 +297,7 @@ const AllCarsPage = () => {
         <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/20 to-slate-100/60 dark:from-slate-950 dark:via-zinc-900 dark:to-black transition-colors duration-300">
             <Suspense fallback={
                 <div className="flex flex-col items-center justify-center py-24 gap-4">
-                    <span className="loading loading-spinner loading-lg text-purple-600"></span>
+                    <Spinner color="secondary" size="lg" />
                 </div>
             }>
                 <ExploreCarsContent />

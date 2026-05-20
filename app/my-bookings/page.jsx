@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { getBookings, deleteBooking } from "@/lib/cars/data";
+import { Spinner } from "@heroui/react";
 
 export default function MyBookingsPage() {
     const { data: session } = useSession();
@@ -80,7 +81,7 @@ export default function MyBookingsPage() {
 
                 {loading ? (
                     <div className="flex flex-col items-center justify-center py-32 bg-base-100 rounded-3xl border border-base-200/50 shadow-md">
-                        <span className="loading loading-spinner loading-lg text-purple-600"></span>
+                        <Spinner color="secondary" size="lg" />
                         <p className="text-xs font-bold text-base-content/40 tracking-wider mt-3 animate-pulse">
                             Loading your bookings dashboard...
                         </p>
@@ -164,7 +165,7 @@ export default function MyBookingsPage() {
                                         className="btn btn-error btn-outline btn-sm rounded-xl font-bold gap-1.5 transition-all text-xs cursor-pointer hover:scale-[1.02] border hover:bg-error hover:text-white"
                                     >
                                         {cancellingId === booking._id ? (
-                                            <span className="loading loading-spinner loading-xs"></span>
+                                            <Spinner size="sm" color="danger" />
                                         ) : (
                                             <>
                                                 <Trash2 className="w-3.5 h-3.5" /> Cancel Rental
