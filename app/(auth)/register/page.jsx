@@ -7,7 +7,7 @@ import { Button, Input } from "@heroui/react";
 import { User, Mail, Lock, Image as ImageIcon, ArrowRight } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
-import { signUp, signInWithGoogle } from "@/lib/auth-client";
+import { signUp, signIn } from "@/lib/auth-client";
 
 export default function Register() {
   const router = useRouter();
@@ -32,7 +32,11 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const pass = formData.password;
+    const form = new FormData(e.currentTarget);
+    const user = Object.fromEntries(form.entries());
+    console.log(user);
+
+    const pass = user.password || "";
     if (pass.length < 6) {
       const msg = "Password must be at least 6 characters long";
       setPasswordError(msg);
@@ -56,17 +60,18 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const res = await signUp(
-        formData.name,
-        formData.email,
-        formData.password,
-        formData.image
-      );
-      if (res.ok) {
+      const { data, error } = await signUp.email({
+        email: user.email,
+        password: user.password,
+        name: user.name,
+        image: user.image || undefined,
+        callbackURL: "/login",
+      });
+      if (!error) {
         toast.success("Account created successfully!");
         router.push("/login");
       } else {
-        toast.error(res.error || "Failed to create account");
+        toast.error(error.message || "Failed to create account");
       }
     } catch (err) {
       console.error(err);
@@ -79,13 +84,10 @@ export default function Register() {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     try {
-      const res = await signInWithGoogle();
-      if (res.ok) {
-        toast.success("Logged in with Google successfully!");
-        router.push("/");
-      } else {
-        toast.error("Google authentication failed.");
-      }
+      await signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
     } catch (err) {
       console.error(err);
       toast.error("Could not complete Google login.");

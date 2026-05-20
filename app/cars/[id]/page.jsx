@@ -3,8 +3,8 @@
 import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-    ArrowLeft, Star, Fuel, Settings2, Users, MapPin, 
+import {
+    ArrowLeft, Star, Fuel, Settings2, Users, MapPin,
     Gauge, Zap, Palette, CheckCircle, ShieldCheck,
     X, Check, Phone, Mail, User
 } from "lucide-react";
@@ -12,6 +12,7 @@ import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { getCarById, createBooking } from "@/lib/cars/data";
 import { Spinner } from "@heroui/react";
+import DetailCarCard from "@/components/DetailCarCard";
 
 export default function CarDetailsPage({ params }) {
     const router = useRouter();
@@ -32,12 +33,14 @@ export default function CarDetailsPage({ params }) {
         userEmail: "",
         phone: "",
         startDate: "",
-        endDate: ""
+        endDate: "",
+        driverNeeded: "No",
+        specialNote: ""
     });
 
     useEffect(() => {
         if (!id) return;
-        
+
         setLoading(true);
         getCarById(id)
             .then((data) => {
@@ -94,9 +97,9 @@ export default function CarDetailsPage({ params }) {
             toast.error("End date cannot be earlier than start date");
             return;
         }
-        
+
         const today = new Date();
-        today.setHours(0,0,0,0);
+        today.setHours(0, 0, 0, 0);
         if (new Date(formData.startDate) < today) {
             toast.error("Start date cannot be in the past");
             return;
@@ -115,6 +118,8 @@ export default function CarDetailsPage({ params }) {
             phone: formData.phone,
             startDate: formData.startDate,
             endDate: formData.endDate,
+            driverNeeded: formData.driverNeeded || "No",
+            specialNote: formData.specialNote || "",
             totalPrice: totalPrice,
             status: "Confirmed",
             bookingDate: new Date().toISOString()
@@ -175,8 +180,8 @@ export default function CarDetailsPage({ params }) {
         <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/20 to-slate-100/60 dark:from-slate-950 dark:via-zinc-900 dark:to-black py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-8">
-                    <Link 
-                        href="/cars" 
+                    <Link
+                        href="/cars"
                         className="inline-flex items-center gap-2 text-sm font-semibold text-purple-600 hover:text-purple-700 transition-colors bg-purple-50 dark:bg-purple-950/25 px-4 py-2 rounded-2xl border border-purple-200/50"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Fleet
@@ -187,8 +192,8 @@ export default function CarDetailsPage({ params }) {
                     <div className="lg:col-span-7 flex flex-col gap-6">
                         <div className="relative h-[300px] md:h-[450px] w-full rounded-3xl overflow-hidden shadow-2xl border border-base-200">
                             {car.image ? (
-                                <img 
-                                    src={car.image} 
+                                <img
+                                    src={car.image}
                                     alt={`${car.make} ${car.model}`}
                                     className="w-full h-full object-cover"
                                 />
@@ -211,72 +216,7 @@ export default function CarDetailsPage({ params }) {
                             </div>
                         </div>
 
-                        <div className="bg-base-100 rounded-3xl p-6 md:p-8 shadow-xl border border-base-200/60">
-                            <h3 className="text-lg font-bold mb-6 text-base-content flex items-center gap-2">
-                                <Gauge className="w-5 h-5 text-purple-600" /> Technical Specifications
-                            </h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Gauge className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Mileage</p>
-                                        <p className="text-sm font-bold text-base-content">{car.mileage?.toLocaleString() || "N/A"} mi</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Settings2 className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Transmission</p>
-                                        <p className="text-sm font-bold text-base-content">{car.transmission || "Automatic"}</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Fuel className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Fuel Type</p>
-                                        <p className="text-sm font-bold text-base-content">{car.fuel_type || "Petrol"}</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Users className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Capacity</p>
-                                        <p className="text-sm font-bold text-base-content">{car.seats || 5} Seats</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Zap className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Power</p>
-                                        <p className="text-sm font-bold text-base-content">{car.horsepower || "N/A"} HP</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-base-200/30 border border-base-200/40">
-                                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/20 text-purple-600 flex items-center justify-center shrink-0">
-                                        <Palette className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] uppercase font-bold text-base-content/40 tracking-wider">Color</p>
-                                        <p className="text-sm font-bold text-base-content">{car.color || "N/A"}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <DetailCarCard car={car} />
                     </div>
 
                     <div className="lg:col-span-5 flex flex-col gap-6">
@@ -344,14 +284,14 @@ export default function CarDetailsPage({ params }) {
                                 </div>
 
                                 {!isBooked ? (
-                                    <button 
+                                    <button
                                         onClick={() => setIsModalOpen(true)}
                                         className="btn w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-13 border-0 shadow-lg shadow-purple-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-100"
                                     >
                                         Book This Ride Now
                                     </button>
                                 ) : (
-                                    <button 
+                                    <button
                                         disabled
                                         className="btn w-full bg-base-200 border-base-300 text-base-content/40 font-bold rounded-2xl h-13 pointer-events-none"
                                     >
@@ -372,7 +312,7 @@ export default function CarDetailsPage({ params }) {
                                 <h3 className="text-lg font-extrabold text-base-content">Book Your Ride</h3>
                                 <p className="text-xs text-base-content/50 font-bold mt-0.5">{car.make} {car.model} (${car.price_per_day}/day)</p>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => setIsModalOpen(false)}
                                 className="w-8 h-8 rounded-full flex items-center justify-center text-base-content/30 hover:text-base-content hover:bg-base-200 transition-all cursor-pointer border-0 bg-transparent"
                             >
@@ -383,13 +323,13 @@ export default function CarDetailsPage({ params }) {
                         <form onSubmit={handleBookingSubmit} className="p-6 flex flex-col gap-4">
                             <div className="flex flex-col gap-3.5">
                                 <h4 className="text-xs font-bold uppercase text-purple-600 tracking-wider">1. Contact Information</h4>
-                                
+
                                 <div className="relative">
                                     <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40">
                                         <User className="w-4 h-4" />
                                     </span>
-                                    <input 
-                                        type="text" 
+                                    <input
+                                        type="text"
                                         name="userName"
                                         placeholder="Full Name"
                                         value={formData.userName}
@@ -403,8 +343,8 @@ export default function CarDetailsPage({ params }) {
                                     <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40">
                                         <Mail className="w-4 h-4" />
                                     </span>
-                                    <input 
-                                        type="email" 
+                                    <input
+                                        type="email"
                                         name="userEmail"
                                         placeholder="Email Address"
                                         value={formData.userEmail}
@@ -418,8 +358,8 @@ export default function CarDetailsPage({ params }) {
                                     <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-base-content/40">
                                         <Phone className="w-4 h-4" />
                                     </span>
-                                    <input 
-                                        type="tel" 
+                                    <input
+                                        type="tel"
                                         name="phone"
                                         placeholder="Phone Number"
                                         value={formData.phone}
@@ -435,8 +375,8 @@ export default function CarDetailsPage({ params }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="label-text font-bold text-base-content/60 text-xs block mb-1">Pick-up Date</label>
-                                        <input 
-                                            type="date" 
+                                        <input
+                                            type="date"
                                             name="startDate"
                                             value={formData.startDate}
                                             onChange={handleInputChange}
@@ -447,14 +387,43 @@ export default function CarDetailsPage({ params }) {
                                     </div>
                                     <div>
                                         <label className="label-text font-bold text-base-content/60 text-xs block mb-1">Return Date</label>
-                                        <input 
-                                            type="date" 
+                                        <input
+                                            type="date"
                                             name="endDate"
                                             value={formData.endDate}
                                             onChange={handleInputChange}
                                             required
                                             min={formData.startDate || new Date().toISOString().split("T")[0]}
                                             className="input input-bordered w-full rounded-xl text-sm h-11 focus:outline-purple-500 font-bold"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3.5 pt-2 border-t border-base-200/50">
+                                <h4 className="text-xs font-bold uppercase text-purple-600 tracking-wider">3. Additional Options</h4>
+                                <div className="flex flex-col gap-3">
+                                    <div>
+                                        <label className="label-text font-bold text-base-content/60 text-xs block mb-1">Driver Needed?</label>
+                                        <select
+                                            name="driverNeeded"
+                                            value={formData.driverNeeded}
+                                            onChange={handleInputChange}
+                                            className="select select-bordered w-full rounded-xl text-sm h-11 focus:outline-purple-500 font-bold"
+                                        >
+                                            <option value="No">No (Self-Drive)</option>
+                                            <option value="Yes">Yes (Driver Needed)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="label-text font-bold text-base-content/60 text-xs block mb-1">Special Note</label>
+                                        <textarea
+                                            name="specialNote"
+                                            placeholder="Enter any special request or notes here..."
+                                            value={formData.specialNote}
+                                            onChange={handleInputChange}
+                                            rows={2}
+                                            className="textarea textarea-bordered w-full rounded-xl text-sm focus:outline-purple-500 font-semibold"
                                         />
                                     </div>
                                 </div>
@@ -478,14 +447,14 @@ export default function CarDetailsPage({ params }) {
                             )}
 
                             <div className="mt-4 flex gap-3">
-                                <button 
+                                <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
                                     className="btn flex-1 bg-base-200 hover:bg-base-300 text-base-content font-bold rounded-2xl h-12 border-0 cursor-pointer"
                                 >
                                     Cancel
                                 </button>
-                                <button 
+                                <button
                                     type="submit"
                                     disabled={bookingLoading}
                                     className="btn flex-1 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-12 border-0 cursor-pointer shadow-lg shadow-purple-500/10 animate-fade-in"

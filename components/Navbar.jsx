@@ -13,16 +13,16 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiLogOut, FiPlusCircle, FiCalendar, FiList, FiUser } from "react-icons/fi";
 
 const links = [
-  { label: "Home",         href: "/"             },
+  { label: "Home", href: "/" },
   { label: "Explore Cars", href: "/cars" },
-  { label: "Add Car",     href: "/add-car"     },
+  { label: "Add Car", href: "/add-car" },
   { label: "My Added Cars", href: "/my-added-cars" },
   { label: "My Bookings", href: "/my-bookings" },
 ];
 
 const dropdownItems = [
-  { label: "Add Car",       href: "/add-car",       icon: <FiPlusCircle size={14} /> },
-  { label: "My Bookings",   href: "/my-bookings",   icon: <FiCalendar size={14} /> },
+  { label: "Add Car", href: "/add-car", icon: <FiPlusCircle size={14} /> },
+  { label: "My Bookings", href: "/my-bookings", icon: <FiCalendar size={14} /> },
   { label: "My Added Cars", href: "/my-added-cars", icon: <FiList size={14} /> },
 ];
 
@@ -64,14 +64,14 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await signOut();
-    setDrawerOpen(false);
-    router.push("/");
   };
 
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const navLinks = [...links];
+  const navLinks = user
+    ? links
+    : links.filter((link) => link.href === "/" || link.href === "/cars");
 
   return (
     <>

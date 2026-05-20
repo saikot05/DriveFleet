@@ -7,7 +7,7 @@ import { Button, Input } from "@heroui/react";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
-import { signIn, signInWithGoogle } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
 
 export default function Login() {
   const router = useRouter();
@@ -26,15 +26,23 @@ export default function Login() {
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const user = Object.fromEntries(form.entries());
+    console.log(user);
+
     setLoading(true);
 
     try {
-      const res = await signIn(formData.email, formData.password);
-      if (res.ok) {
+      const { data, error } = await signIn.email({
+        email: user.email,
+        password: user.password,
+        callbackURL: "/",
+      });
+      if (!error) {
         toast.success("Welcome to DriveFleet!");
         router.push("/");
       } else {
-        toast.error(res.error || "Invalid email or password");
+        toast.error(error.message || "Invalid email or password");
       }
     } catch (err) {
       console.error(err);
@@ -47,13 +55,10 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     try {
-      const res = await signInWithGoogle();
-      if (res.ok) {
-        toast.success("Logged in with Google successfully!");
-        router.push("/");
-      } else {
-        toast.error("Google authentication failed.");
-      }
+      await signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
     } catch (err) {
       console.error(err);
       toast.error("Could not complete Google login.");
