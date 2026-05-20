@@ -2,4 +2,46 @@
 @plugin "daisyui";
 @import "@heroui/styles";
 
+/* ── Section gradient: responds to data-theme ── */
+.section-cars-bg {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 40%, #f0f4ff 100%);
+}
+[data-theme="dark"] .section-cars-bg {
+  background: linear-gradient(135deg, #0f0a1e 0%, #1e1040 50%, #130d2e 100%);
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.brand-card {
+  perspective: 800px;
+}
+
+.brand-card-inner {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.brand-card:hover .brand-card-inner {
+  transform: rotateY(-8deg) rotateX(4deg) scale(1.06);
+  box-shadow: 8px 16px 40px rgba(139, 92, 246, 0.25);
+}
+
+/* Invert dark logos like Mercedes in dark mode */
+[data-theme="dark"] .brand-logo-dark-invert {
+  filter: invert(1) brightness(2) drop-shadow(0 1px 4px rgba(255,255,255,0.15)) !important;
+}
 

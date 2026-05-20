@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import { LuPhone, LuMail, LuMapPin, LuCar } from "react-icons/lu";
 import { FaFacebookF, FaInstagram, FaXTwitter, FaYoutube } from "react-icons/fa6";
 
@@ -26,18 +25,12 @@ const socials = [
   { id: "social-youtube",   href: "https://youtube.com",   Icon: FaYoutube,    label: "YouTube" },
 ];
 
-// ── Component ─────────────────────────────────────────────────────────────────
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-6">
-
-        {/* ── Top Grid ──────────────────────────────── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
-          {/* Brand column */}
           <div>
-            {/* Logo */}
             <Link href="/" className="inline-flex items-center gap-2.5 mb-4 no-underline">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/30 shrink-0">
                 <LuCar size={20} />
@@ -56,7 +49,6 @@ export default function Footer() {
               Your trusted car rental platform. Premium vehicles, flexible plans, and seamless booking — wherever you need to go.
             </p>
 
-            {/* Social icons */}
             <div className="flex gap-2.5">
               {socials.map(({ id, href, Icon, label }) => (
                 <a
@@ -74,7 +66,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Useful Links */}
           <div>
             <p className="text-xs font-bold tracking-[0.16em] uppercase text-gray-500 mb-4 m-0">
               Useful Links
@@ -92,7 +83,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Support */}
           <div>
             <p className="text-xs font-bold tracking-[0.16em] uppercase text-gray-500 mb-4 m-0">
               Support
@@ -110,7 +100,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Contact */}
           <div>
             <p className="text-xs font-bold tracking-[0.16em] uppercase text-gray-500 mb-4 m-0">
               Contact
@@ -142,13 +131,10 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-
         </div>
 
-        {/* ── Divider ───────────────────────────────── */}
         <hr className="border-t border-white/[0.06] my-8" />
 
-        {/* ── Bottom bar ────────────────────────────── */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-gray-600 m-0">
             © {new Date().getFullYear()} DriveFleet. All rights reserved.
@@ -169,7 +155,6 @@ export default function Footer() {
             ))}
           </div>
         </div>
-
       </div>
     </footer>
   );

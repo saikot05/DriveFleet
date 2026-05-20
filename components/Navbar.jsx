@@ -8,7 +8,7 @@ import { signOut, useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { LuCar } from "react-icons/lu";
 import { RiSunLine, RiMoonLine } from "react-icons/ri";
-import { HiMenu, HiX } from "react-icons/hi";
+import { HiMenu as MenuIcon, HiX as CloseIcon } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiLogOut, FiPlusCircle, FiCalendar, FiList, FiUser } from "react-icons/fi";
 
@@ -80,7 +80,6 @@ export default function Navbar() {
         scrolled && "shadow-sm"
       )}>
         <header className="max-w-7xl mx-auto px-4 sm:px-6 flex h-16 items-center gap-3">
-
           <Link href="/" className="flex items-center gap-2.5 shrink-0 no-underline">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/40 shrink-0">
               <LuCar size={20} />
@@ -185,10 +184,9 @@ export default function Navbar() {
               aria-label="Open menu"
               className="lg:hidden w-9 h-9 rounded-full border border-base-300 flex items-center justify-center text-base-content/60 hover:bg-base-200 transition-all cursor-pointer bg-transparent"
             >
-              <HiMenu size={20} />
+              <MenuIcon size={20} />
             </button>
           </div>
-
         </header>
       </nav>
 
@@ -214,7 +212,7 @@ export default function Navbar() {
             onClick={() => setDrawerOpen(false)}
             className="w-8 h-8 rounded-full flex items-center justify-center text-base-content/40 hover:text-base-content hover:bg-base-200 transition-colors bg-transparent border-0 cursor-pointer"
           >
-            <HiX size={20} />
+            <CloseIcon size={20} />
           </button>
         </div>
 
