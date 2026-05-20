@@ -20,17 +20,19 @@ const links = [
   { label: "My Bookings", href: "/my-bookings" },
 ];
 
-const dropdownItems = [
-  { label: "Add Car", href: "/add-car", icon: <FiPlusCircle size={14} /> },
-  { label: "My Bookings", href: "/my-bookings", icon: <FiCalendar size={14} /> },
-  { label: "My Added Cars", href: "/my-added-cars", icon: <FiList size={14} /> },
-];
+
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const user = session?.user ?? null;
+
+  const dropdownItems = [
+    { label: "Add Car", href: "/add-car", icon: <FiPlusCircle size={14} /> },
+    { label: "My Bookings", href: "/my-bookings", icon: <FiCalendar size={14} /> },
+    { label: "My Added Cars", href: "/my-added-cars", icon: <FiList size={14} /> },
+  ];
 
   const [theme, setTheme] = useState("light");
   const [mounted, setMounted] = useState(false);

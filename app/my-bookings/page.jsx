@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSession } from "@/lib/auth-client";
-import {
-    Calendar, DollarSign, ShieldCheck, Car, Trash2, ArrowRight, User, Mail, Sparkles
-} from "lucide-react";
+import { Sparkles, Car } from "lucide-react";
 import toast from "react-hot-toast";
 import { getBookings, deleteBooking } from "@/lib/cars/data";
-import { Spinner } from "@heroui/react";
 import BookingCarCard from "@/components/BookingCarCard";
+import { useSession } from "@/lib/auth-client";
+import { Spinner } from "@heroui/react";
 
-export default function MyBookingsPage() {
-    const { data: session } = useSession();
+const MyBookingsPage = () => {
+    const { data: session, isPending } = useSession();
     const user = session?.user;
-
+    console.log(user);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cancellingId, setCancellingId] = useState(null);
@@ -33,14 +31,12 @@ export default function MyBookingsPage() {
     };
 
     useEffect(() => {
-        fetchBookings();
-    }, [user]);
+        if (!isPending) {
+            fetchBookings();
+        }
+    }, [user, isPending]);
 
     const handleCancelBooking = async (bookingId, carId) => {
-        if (!confirm("Are you sure you want to cancel this booking? This will make the vehicle available for rent again.")) {
-            return;
-        }
-
         setCancellingId(bookingId);
         try {
             const res = await deleteBooking(bookingId, carId);
@@ -80,7 +76,7 @@ export default function MyBookingsPage() {
                     </div>
                 </div>
 
-                {loading ? (
+                {loading || isPending ? (
                     <div className="flex flex-col items-center justify-center py-32 bg-base-100 rounded-3xl border border-base-200/50 shadow-md">
                         <Spinner color="secondary" size="lg" />
                         <p className="text-xs font-bold text-base-content/40 tracking-wider mt-3 animate-pulse">
@@ -109,7 +105,7 @@ export default function MyBookingsPage() {
                         </p>
                         <Link
                             href="/cars"
-                            className="btn bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 border-0 text-white rounded-2xl shadow-lg shadow-purple-500/20 px-8 py-3.5 h-auto min-h-0 text-sm font-bold cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                            className="btn btn-purple rounded-2xl px-8 py-3.5 h-auto min-h-0 text-sm"
                         >
                             Explore Fleet Cars
                         </Link>
@@ -118,4 +114,6 @@ export default function MyBookingsPage() {
             </div>
         </main>
     );
-}
+};
+
+export default MyBookingsPage;

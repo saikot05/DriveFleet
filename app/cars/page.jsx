@@ -309,7 +309,7 @@ const ExploreCarsContent = () => {
                     </p>
                     <button
                         onClick={handleReset}
-                        className="btn bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 border-0 text-white rounded-2xl shadow-lg shadow-purple-500/20 px-8 py-3.5 h-auto min-h-0 text-sm font-bold cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                        className="btn btn-purple rounded-2xl px-8 py-3.5 h-auto min-h-0 text-sm"
                     >
                         Reset All Filters
                     </button>

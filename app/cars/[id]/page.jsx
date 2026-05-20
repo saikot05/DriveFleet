@@ -109,6 +109,7 @@ export default function CarDetailsPage({ params }) {
 
         const bookingPayload = {
             carId: car._id,
+            userId: user?.id || "",
             make: car.make,
             model: car.model,
             image: car.image,
@@ -286,7 +287,7 @@ export default function CarDetailsPage({ params }) {
                                 {!isBooked ? (
                                     <button
                                         onClick={() => setIsModalOpen(true)}
-                                        className="btn w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-13 border-0 shadow-lg shadow-purple-500/20 transition-all cursor-pointer hover:scale-[1.02] active:scale-100"
+                                        className="btn w-full btn-purple rounded-2xl h-13"
                                     >
                                         Book This Ride Now
                                     </button>
@@ -457,7 +458,7 @@ export default function CarDetailsPage({ params }) {
                                 <button
                                     type="submit"
                                     disabled={bookingLoading}
-                                    className="btn flex-1 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-bold rounded-2xl h-12 border-0 cursor-pointer shadow-lg shadow-purple-500/10 animate-fade-in"
+                                    className="btn flex-1 btn-purple rounded-2xl h-12 animate-fade-in"
                                 >
                                     {bookingLoading ? <Spinner color="white" size="sm" /> : "Confirm Booking"}
                                 </button>

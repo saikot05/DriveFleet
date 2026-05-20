@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Calendar, DollarSign, ShieldCheck, Car, Trash2, ArrowRight, User, Mail, Phone, FileText } from "lucide-react";
-import { Spinner } from "@heroui/react";
+import { Spinner, AlertDialog, Button } from "@heroui/react";
 
 export default function BookingCarCard({ booking, cancellingId, handleCancelBooking }) {
   return (
@@ -91,19 +91,49 @@ export default function BookingCarCard({ booking, cancellingId, handleCancelBook
           <ShieldCheck className="w-3.5 h-3.5" /> Confirmed
         </span>
 
-        <button
-          onClick={() => handleCancelBooking(booking._id, booking.carId)}
-          disabled={cancellingId === booking._id}
-          className="btn btn-error btn-outline btn-sm rounded-xl font-bold gap-1.5 transition-all text-xs cursor-pointer hover:scale-[1.02] border hover:bg-error hover:text-white"
-        >
-          {cancellingId === booking._id ? (
-            <Spinner size="sm" color="danger" />
-          ) : (
-            <>
-              <Trash2 className="w-3.5 h-3.5" /> Cancel Rental
-            </>
-          )}
-        </button>
+        <AlertDialog>
+          <Button
+            isDisabled={cancellingId === booking._id}
+            className="btn btn-error btn-outline btn-sm rounded-xl font-bold gap-1.5 transition-all text-xs cursor-pointer hover:scale-[1.02] border hover:bg-error hover:text-white"
+          >
+            {cancellingId === booking._id ? (
+              <Spinner size="sm" color="danger" />
+            ) : (
+              <>
+                <Trash2 className="w-3.5 h-3.5" /> Cancel Rental
+              </>
+            )}
+          </Button>
+          <AlertDialog.Backdrop>
+            <AlertDialog.Container>
+              <AlertDialog.Dialog className="sm:max-w-[400px]">
+                <AlertDialog.CloseTrigger />
+                <AlertDialog.Header>
+                  <AlertDialog.Icon status="danger" />
+                  <AlertDialog.Heading>Cancel Rental permanently?</AlertDialog.Heading>
+                </AlertDialog.Header>
+                <AlertDialog.Body>
+                  <p>
+                    This will permanently cancel the rental for <strong>{booking.make} {booking.model}</strong>. 
+                    This action cannot be undone.
+                  </p>
+                </AlertDialog.Body>
+                <AlertDialog.Footer>
+                  <Button slot="close" variant="tertiary">
+                    Keep Booking
+                  </Button>
+                  <Button 
+                    slot="close" 
+                    variant="danger"
+                    onPress={() => handleCancelBooking(booking._id, booking.carId)}
+                  >
+                    Yes, Cancel It
+                  </Button>
+                </AlertDialog.Footer>
+              </AlertDialog.Dialog>
+            </AlertDialog.Container>
+          </AlertDialog.Backdrop>
+        </AlertDialog>
       </div>
     </div>
   );
