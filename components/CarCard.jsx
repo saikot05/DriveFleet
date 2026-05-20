@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Star, Fuel, Settings2, Users, MapPin, Car } from "lucide-react";
+import { Star, Fuel, Settings2, Users, MapPin, Car, Edit, Trash2 } from "lucide-react";
 
-const CarCard = ({ car }) => {
+const CarCard = ({ car, onEdit, onDelete }) => {
     const {
         _id,
         make,
@@ -20,34 +20,35 @@ const CarCard = ({ car }) => {
     } = car;
 
     return (
-        <div className="card bg-base-100 image-full h-[380px] shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-            <figure className="h-full w-full">
+        <div className="card relative bg-base-100 image-full h-[380px] overflow-hidden rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            {/* Top-Right Availability Badge */}
+            <div className="absolute top-4 right-4 z-20">
+                <span className={`badge ${available ? "badge-success" : "badge-error"} font-semibold text-white border-none shadow-md px-3 py-2 text-xs`}>
+                    {available ? "Available" : "Unavailable"}
+                </span>
+            </div>
+            <figure className="absolute inset-0 h-full w-full m-0 p-0 overflow-hidden rounded-3xl">
                 {image ? (
                     <img
                         src={image}
                         alt={`${make} ${model}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover rounded-3xl"
                     />
                 ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-base-300">
+                    <div className="w-full h-full flex items-center justify-center bg-base-300 rounded-3xl">
                         <Car className="w-16 h-16 opacity-30" />
                     </div>
                 )}
             </figure>
 
             <div className="card-body justify-end gap-2 p-5">
-                <div className="flex items-center justify-between">
-                    {rating && (
-                        <div className="flex items-center gap-1 text-sm font-semibold">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-white">{rating}</span>
-                            {reviews && <span className="text-white/60 text-xs">({reviews})</span>}
-                        </div>
-                    )}
-                    <div className={`badge ${available ? "badge-success" : "badge-error"} font-semibold text-white`}>
-                        {available ? "Available" : "Unavailable"}
+                {rating && (
+                    <div className="flex items-center gap-1 text-sm font-semibold mb-1">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <span className="text-white">{rating}</span>
+                        {reviews && <span className="text-white/60 text-xs">({reviews})</span>}
                     </div>
-                </div>
+                )}
 
                 <h2 className="card-title text-white text-xl font-extrabold leading-tight">
                     {make} {model}
@@ -97,9 +98,32 @@ const CarCard = ({ car }) => {
                         <p className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Per day</p>
                         <p className="text-2xl font-extrabold text-white">${price_per_day}</p>
                     </div>
-                    <Link href={`/cars/${_id}`} className="btn bg-purple-600 hover:bg-purple-700 text-white border-none font-bold px-6">
-                        View Details
-                    </Link>
+                    {onEdit && onDelete ? (
+                        <div className="flex gap-2">
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onEdit(car);
+                                }}
+                                className="btn btn-sm bg-purple-600 hover:bg-purple-700 text-white border-none font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 text-xs transition-all cursor-pointer"
+                            >
+                                <Edit className="w-3.5 h-3.5" /> Edit
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onDelete(car);
+                                }}
+                                className="btn btn-sm bg-rose-600 hover:bg-rose-700 text-white border-none font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 text-xs transition-all cursor-pointer"
+                            >
+                                <Trash2 className="w-3.5 h-3.5" /> Delete
+                            </button>
+                        </div>
+                    ) : (
+                        <Link href={`/cars/${_id}`} className="btn bg-purple-600 hover:bg-purple-700 text-white border-none font-bold px-6">
+                            View Details
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>
