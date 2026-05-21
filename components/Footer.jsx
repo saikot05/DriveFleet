@@ -4,18 +4,18 @@ import { FaFacebookF, FaInstagram, FaXTwitter, FaYoutube } from "react-icons/fa6
 
 const usefulLinks = [
   { label: "Home",          href: "/" },
-  { label: "Explore Cars",  href: "/explore-cars" },
+  { label: "Explore Cars",  href: "/cars" },
   { label: "Add Car",       href: "/add-car" },
   { label: "My Bookings",   href: "/my-bookings" },
   { label: "My Added Cars", href: "/my-added-cars" },
 ];
 
 const supportLinks = [
-  { label: "How It Works",    href: "/how-it-works" },
-  { label: "FAQs",            href: "/faqs" },
-  { label: "Terms of Service",href: "/terms" },
-  { label: "Privacy Policy",  href: "/privacy" },
-  { label: "Contact Us",      href: "/contact" },
+  { label: "How It Works",    href: "/" },
+  { label: "FAQs",            href: "/" },
+  { label: "Terms of Service",href: "/" },
+  { label: "Privacy Policy",  href: "/" },
+  { label: "Contact Us",      href: "/" },
 ];
 
 const socials = [
@@ -141,9 +141,9 @@ const Footer = () => {
           </p>
           <div className="flex gap-5">
             {[
-              { label: "Terms",   href: "/terms" },
-              { label: "Privacy", href: "/privacy" },
-              { label: "Cookies", href: "/cookies" },
+              { label: "Terms",   href: "/" },
+              { label: "Privacy", href: "/" },
+              { label: "Cookies", href: "/" },
             ].map((l) => (
               <Link
                 key={l.href}

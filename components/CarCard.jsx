@@ -20,7 +20,7 @@ const CarCard = ({ car, onEdit, onDelete }) => {
     } = car;
 
     return (
-        <div className="card relative bg-base-100 image-full h-[380px] overflow-hidden rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+        <div className="c relative bg-base-100 image-full h-[380px] overflow-hidden rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
             {/* Top-Right Availability Badge */}
             <div className="absolute top-4 right-4 z-20">
                 <span className={`badge ${available ? "badge-success" : "badge-error"} font-semibold text-white border-none shadow-md px-3 py-2 text-xs`}>
