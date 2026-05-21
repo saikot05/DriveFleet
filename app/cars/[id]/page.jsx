@@ -13,13 +13,14 @@ const CarDetailsPage = async ({ params }) => {
     const { token } = await auth.api.getToken({
         headers: await headers()
     });
+    console.log("Token in CarDetailsPage:", token);
     const car = await getCarById(id, token);
 
     return (
         <CarDetailsClient
             car={car}
             user={session?.user}
-            token={token?.token}
+            token={token}
         />
     );
 };
