@@ -7,7 +7,7 @@ import { Button, Input } from "@heroui/react";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
-import { signIn } from "@/lib/auth-client";
+import { authClient, signIn } from "@/lib/auth-client";
 
 const Login = () => {
   const router = useRouter();
