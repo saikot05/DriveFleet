@@ -6,7 +6,7 @@ import { Sparkles, Car } from "lucide-react";
 import toast from "react-hot-toast";
 import { getBookings, deleteBooking } from "@/lib/cars/data";
 import BookingCarCard from "@/components/BookingCarCard";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { Spinner } from "@heroui/react";
 
 const MyBookingsPage = () => {
@@ -17,17 +17,18 @@ const MyBookingsPage = () => {
     const [loading, setLoading] = useState(true);
     const [cancellingId, setCancellingId] = useState(null);
 
-    const fetchBookings = () => {
+    const fetchBookings = async () => {
         setLoading(true);
-        getBookings(user?.email)
-            .then((data) => {
-                setBookings(data || []);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error fetching bookings:", err);
-                setLoading(false);
-            });
+        try {
+            const tokenData = await authClient.token();
+            const token = tokenData?.data?.token;
+            const data = await getBookings(user?.email, token);
+            setBookings(data || []);
+        } catch (err) {
+            console.error("Error fetching bookings:", err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
