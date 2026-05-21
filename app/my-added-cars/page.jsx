@@ -23,15 +23,12 @@ const MyAddedCarsPage = () => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Modal states
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  // Selected car states
   const [selectedCar, setSelectedCar] = useState(null);
   const [isActionLoading, setIsActionLoading] = useState(false);
 
-  // Edit form state
   const [editForm, setEditForm] = useState({
     price_per_day: "",
     description: "",
@@ -66,7 +63,7 @@ const MyAddedCarsPage = () => {
     }
   }, [user, isPending]);
 
-  // Open Edit Modal
+  
   const handleOpenEdit = (car) => {
     setSelectedCar(car);
     setEditForm({
@@ -80,13 +77,13 @@ const MyAddedCarsPage = () => {
     setIsEditOpen(true);
   };
 
-  // Open Delete Confirmation Modal
+ 
   const handleOpenDelete = (car) => {
     setSelectedCar(car);
     setIsDeleteOpen(true);
   };
 
-  // Handle Edit Submit
+ 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     if (!selectedCar) return;
@@ -115,7 +112,7 @@ const MyAddedCarsPage = () => {
     }
   };
 
-  // Handle Delete Confirmation
+  
   const handleDeleteConfirm = async () => {
     if (!selectedCar) return;
 
@@ -172,7 +169,6 @@ const MyAddedCarsPage = () => {
     <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/20 to-slate-100/60 dark:from-slate-950 dark:via-zinc-900 dark:to-black py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         
-        {/* Banner Section */}
         <div className="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-8 md:p-12 mb-10 shadow-xl border border-white/5">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[80px] pointer-events-none"></div>
           <div className="relative z-10">
@@ -188,7 +184,7 @@ const MyAddedCarsPage = () => {
           </div>
         </div>
 
-        {/* Listings Grid */}
+        
         {cars.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {cars.map((car) => (
@@ -220,7 +216,7 @@ const MyAddedCarsPage = () => {
 
       </div>
 
-      {/* EDIT MODAL */}
+      
       {isEditOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in">
           <div className="relative bg-base-100 w-full max-w-2xl rounded-3xl shadow-2xl border border-base-200/60 overflow-hidden transform scale-100 transition-all duration-300">
@@ -236,9 +232,8 @@ const MyAddedCarsPage = () => {
             </div>
 
             <form onSubmit={handleEditSubmit} className="p-6 flex flex-col gap-5 max-h-[75vh] overflow-y-auto">
-              {/* Inputs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Price */}
+                
                 <div className="form-control">
                   <label className="label"><span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/60">Daily Rent Price ($)</span></label>
                   <input
@@ -252,7 +247,7 @@ const MyAddedCarsPage = () => {
                   />
                 </div>
 
-                {/* Location */}
+              
                 <div className="form-control">
                   <label className="label"><span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/60">Pickup Location</span></label>
                   <input
@@ -266,7 +261,7 @@ const MyAddedCarsPage = () => {
                   />
                 </div>
 
-                {/* Category Selection */}
+                
                 <div className="form-control">
                   <label className="label"><span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/60">Car Category</span></label>
                   <select
@@ -285,7 +280,7 @@ const MyAddedCarsPage = () => {
                   </select>
                 </div>
 
-                {/* Image URL */}
+                
                 <div className="form-control">
                   <label className="label"><span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/60">Image URL</span></label>
                   <input
@@ -300,7 +295,6 @@ const MyAddedCarsPage = () => {
                 </div>
               </div>
 
-              {/* Availability Toggle */}
               <div className="flex items-center justify-between p-4 rounded-2xl bg-base-200/50 border border-base-200">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-sm font-bold text-base-content">Listing Availability</span>
@@ -314,7 +308,7 @@ const MyAddedCarsPage = () => {
                 />
               </div>
 
-              {/* Description */}
+             
               <div className="form-control">
                 <label className="label"><span className="label-text font-bold text-xs uppercase tracking-wider text-base-content/60">Description</span></label>
                 <textarea
@@ -327,7 +321,7 @@ const MyAddedCarsPage = () => {
                 />
               </div>
 
-              {/* Footer */}
+             
               <div className="flex justify-end gap-3 pt-4 border-t border-base-200/60 mt-2">
                 <button
                   type="button"
@@ -350,7 +344,7 @@ const MyAddedCarsPage = () => {
         </div>
       )}
 
-      {/* DELETE CONFIRMATION MODAL */}
+    
       {isDeleteOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in">
           <div className="relative bg-base-100 w-full max-w-md rounded-3xl shadow-2xl border border-base-200/60 overflow-hidden transform scale-100 transition-all duration-300 p-6 text-center">

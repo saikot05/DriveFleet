@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Compass, Home, ArrowLeft } from "lucide-react";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/20 to-slate-100/60 dark:from-slate-950 dark:via-zinc-900 dark:to-black flex flex-col items-center justify-center p-6 transition-colors duration-300">
       <div className="relative max-w-xl w-full text-center bg-base-100 rounded-3xl p-8 md:p-12 shadow-2xl border border-base-200/60 overflow-hidden">
@@ -44,3 +44,6 @@ export default function NotFound() {
     </main>
   );
 }
+
+
+export default NotFound;

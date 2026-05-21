@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
 
-export default function Bannar() {
+const Bannar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const bannerRef = useRef(null);
 
@@ -96,3 +96,5 @@ export default function Bannar() {
     </section>
   );
 }
+
+export default Bannar;

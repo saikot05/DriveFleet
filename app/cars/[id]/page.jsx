@@ -14,7 +14,7 @@ import { getCarById, createBooking } from "@/lib/cars/data";
 import { Spinner } from "@heroui/react";
 import DetailCarCard from "@/components/DetailCarCard";
 
-export default function CarDetailsPage({ params }) {
+const CarDetailsPage = ({ params }) => {
     const router = useRouter();
     const resolvedParams = use(params);
     const id = resolvedParams.id;
@@ -469,4 +469,6 @@ export default function CarDetailsPage({ params }) {
             )}
         </div>
     );
-}
+};
+
+export default CarDetailsPage;

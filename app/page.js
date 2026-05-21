@@ -2,7 +2,7 @@ import AvailableCars from "@/components/AvailableCars";
 import Bannar from "@/components/Bannar";
 import Brand from "@/components/Brand";
 
-export default function Home() {
+const Home = () => {
   return (
     <div className="flex flex-col">
       <Bannar />
@@ -10,4 +10,6 @@ export default function Home() {
       <Brand />
     </div>
   );
-}
+};
+
+export default Home;

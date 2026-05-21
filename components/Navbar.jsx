@@ -11,6 +11,7 @@ import { RiSunLine, RiMoonLine } from "react-icons/ri";
 import { HiMenu as MenuIcon, HiX as CloseIcon } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FiLogOut, FiPlusCircle, FiCalendar, FiList, FiUser } from "react-icons/fi";
+import { Spinner } from "@heroui/react";
 
 const links = [
   { label: "Home", href: "/" },
@@ -22,7 +23,7 @@ const links = [
 
 
 
-export default function Navbar() {
+const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
@@ -38,6 +39,7 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("df-theme") || "light";
@@ -45,6 +47,10 @@ export default function Navbar() {
     document.documentElement.setAttribute("data-theme", saved);
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    setIsRedirecting(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -71,9 +77,13 @@ export default function Navbar() {
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const navLinks = user
-    ? links
-    : links.filter((link) => link.href === "/" || link.href === "/cars");
+  const navLinks = links;
+
+  const handleProtectedLinkClick = (href) => {
+    if (!user && !isPending && ["/my-bookings", "/my-added-cars", "/add-car"].includes(href)) {
+      setIsRedirecting(true);
+    }
+  };
 
   return (
     <>
@@ -101,6 +111,7 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  onClick={() => handleProtectedLinkClick(link.href)}
                   aria-current={isActive(link.href) ? "page" : undefined}
                   className={cn(
                     "px-4 py-2 rounded-lg text-sm font-medium no-underline transition-all duration-200",
@@ -223,7 +234,10 @@ export default function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                onClick={() => setDrawerOpen(false)}
+                onClick={() => {
+                  setDrawerOpen(false);
+                  handleProtectedLinkClick(link.href);
+                }}
                 className={cn(
                   "flex items-center px-4 py-2.5 rounded-xl text-sm font-medium no-underline transition-all",
                   isActive(link.href)
@@ -298,6 +312,14 @@ export default function Navbar() {
           )}
         </div>
       </div>
+
+      {isRedirecting && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-base-100/60 backdrop-blur-sm">
+          <Spinner size="lg" color="secondary" />
+        </div>
+      )}
     </>
   );
 }
+
+export default Navbar;

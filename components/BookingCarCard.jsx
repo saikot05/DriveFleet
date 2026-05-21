@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Calendar, DollarSign, ShieldCheck, Car, Trash2, ArrowRight, User, Mail, Phone, FileText } from "lucide-react";
 import { Spinner, AlertDialog, Button } from "@heroui/react";
 
-export default function BookingCarCard({ booking, cancellingId, handleCancelBooking }) {
+const BookingCarCard = ({ booking, cancellingId, handleCancelBooking }) => {
   return (
     <div className="bg-base-100 rounded-3xl p-6 shadow-lg border border-base-200/60 hover:shadow-xl transition-all duration-300 flex flex-col justify-between gap-6">
       <div className="flex gap-4">
@@ -138,3 +138,6 @@ export default function BookingCarCard({ booking, cancellingId, handleCancelBook
     </div>
   );
 }
+
+
+export default BookingCarCard;

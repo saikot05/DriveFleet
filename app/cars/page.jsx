@@ -14,16 +14,13 @@ const ExploreCarsContent = () => {
     const [filteredCars, setFilteredCars] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Read initial URL params
     const urlSearchQuery = searchParams.get("search") || "";
     const selectedBrand = searchParams.get("brand") || "";
     const selectedAvailability = searchParams.get("availability") || "all";
     const sortBy = searchParams.get("sort") || "default";
 
-    // Local state for instant search input to prevent typing lag
     const [searchInput, setSearchInput] = useState(urlSearchQuery);
 
-    // Sync input with search query changes (e.g. on reset or URL back/forward)
     useEffect(() => {
         setSearchInput(urlSearchQuery);
     }, [urlSearchQuery]);
@@ -42,10 +39,8 @@ const ExploreCarsContent = () => {
             });
     }, []);
 
-    // Extract unique makes for filter dropdown
     const brands = [...new Set(cars.map((car) => car.make))].filter(Boolean).sort();
 
-    // Debounce updating the URL query parameters for search input
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             const params = new URLSearchParams(searchParams.toString());
@@ -60,11 +55,9 @@ const ExploreCarsContent = () => {
         return () => clearTimeout(delayDebounceFn);
     }, [searchInput]);
 
-    // Filter and Sort logic
     useEffect(() => {
         let result = [...cars];
 
-        // 1. Search Query filter (make, model, category, features, fuel_type, transmission, location)
         if (searchInput.trim() !== "") {
             const query = searchInput.toLowerCase().trim();
             result = result.filter(
@@ -79,12 +72,10 @@ const ExploreCarsContent = () => {
             );
         }
 
-        // 2. Brand (make) filter
         if (selectedBrand) {
             result = result.filter((car) => car.make === selectedBrand);
         }
 
-        // 3. Availability filter
         if (selectedAvailability !== "all") {
             const wantAvailable = selectedAvailability === "available";
             result = result.filter((car) => {
@@ -92,7 +83,6 @@ const ExploreCarsContent = () => {
             });
         }
 
-        // 4. Sort logic
         if (sortBy === "price-low-high") {
             result.sort((a, b) => Number(a.price_per_day) - Number(b.price_per_day));
         } else if (sortBy === "price-high-low") {
@@ -106,7 +96,6 @@ const ExploreCarsContent = () => {
         setFilteredCars(result);
     }, [searchInput, selectedBrand, selectedAvailability, sortBy, cars]);
 
-    // Helper to update specific search parameter in URL
     const updateSearchParam = (key, value) => {
         const params = new URLSearchParams(searchParams.toString());
         if (value && value !== "all" && value !== "default") {
@@ -117,25 +106,20 @@ const ExploreCarsContent = () => {
         router.push(`/cars?${params.toString()}`, { scroll: false });
     };
 
-    // Reset all filters in URL & Input State
     const handleReset = () => {
         setSearchInput("");
         router.push("/cars", { scroll: false });
     };
 
-    // Check if any filters are active to show active pills
     const hasActiveFilters = searchInput || selectedBrand || selectedAvailability !== "all" || sortBy !== "default";
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-            {/* Premium Hero Title Banner */}
             <div className="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-8 md:p-16 mb-12 shadow-2xl border border-white/5">
-                {/* Glowing Background Radial Effects */}
                 <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-purple-600/10 rounded-full blur-[120px] -mr-32 -mt-32 pointer-events-none"></div>
                 <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-purple-700/5 rounded-full blur-[120px] -ml-32 -mb-32 pointer-events-none"></div>
 
-                {/* Decorative Pattern */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
                 <div className="relative z-10 max-w-3xl">
@@ -151,11 +135,9 @@ const ExploreCarsContent = () => {
                 </div>
             </div>
 
-            {/* Filters Section */}
             <div className="bg-base-100/90 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-base-200/60 mb-12 transition-all duration-300">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
 
-                    {/* Search Input (spans 6 cols on md) */}
                     <div className="relative md:col-span-6">
                         <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-purple-500/70">
                             <Search className="w-5 h-5" />
@@ -177,7 +159,6 @@ const ExploreCarsContent = () => {
                         )}
                     </div>
 
-                    {/* Brand Select (spans 3 cols on md) */}
                     <div className="md:col-span-3">
                         <select
                             value={selectedBrand}
@@ -193,7 +174,6 @@ const ExploreCarsContent = () => {
                         </select>
                     </div>
 
-                    {/* Availability Select (spans 3 cols on md) */}
                     <div className="md:col-span-3">
                         <select
                             value={selectedAvailability}
@@ -207,7 +187,6 @@ const ExploreCarsContent = () => {
                     </div>
                 </div>
 
-                {/* Interactive Filter Pills */}
                 {hasActiveFilters && (
                     <div className="flex flex-wrap items-center gap-2.5 mt-5 pt-5 border-t border-base-200/50">
                         <span className="text-xs text-base-content/50 font-bold flex items-center gap-1">
@@ -250,7 +229,6 @@ const ExploreCarsContent = () => {
                     </div>
                 )}
 
-                {/* Sort Controls & Stats */}
                 <div className="flex flex-wrap items-center justify-between mt-6 pt-5 border-t border-base-200/50 gap-4">
                     <div className="flex items-center gap-3">
                         <SlidersHorizontal className="text-purple-600 w-4 h-4" />
@@ -282,7 +260,6 @@ const ExploreCarsContent = () => {
                 </div>
             </div>
 
-            {/* Fleet Display */}
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-32 gap-4 bg-base-100 rounded-3xl border border-base-200/50 shadow-md">
                     <span className="loading loading-spinner loading-lg text-purple-600 scale-125"></span>
@@ -319,7 +296,6 @@ const ExploreCarsContent = () => {
     );
 };
 
-// Wrap in Suspense because of useSearchParams in Next.js
 const AllCarsPage = () => {
     return (
         <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/20 to-slate-100/60 dark:from-slate-950 dark:via-zinc-900 dark:to-black transition-colors duration-300">

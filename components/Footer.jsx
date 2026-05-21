@@ -25,7 +25,7 @@ const socials = [
   { id: "social-youtube",   href: "https://youtube.com",   Icon: FaYoutube,    label: "YouTube" },
 ];
 
-export default function Footer() {
+const Footer = () => {
   return (
     <footer className="bg-gray-950 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-6">
@@ -159,3 +159,6 @@ export default function Footer() {
     </footer>
   );
 }
+
+
+export default Footer;

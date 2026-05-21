@@ -9,32 +9,20 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { signUp, signIn } from "@/lib/auth-client";
 
-export default function Register() {
+const Register = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    image: "",
-    password: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name === "password") {
-      setPasswordError("");
-    }
-  };
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const user = Object.fromEntries(form.entries());
-    console.log(user);
+
 
     const pass = user.password || "";
     if (pass.length < 6) {
@@ -64,7 +52,7 @@ export default function Register() {
         email: user.email,
         password: user.password,
         name: user.name,
-        image: user.image || undefined,
+        image: user.image || null,
         callbackURL: "/login",
       });
       if (!error) {
@@ -82,17 +70,13 @@ export default function Register() {
   };
 
   const handleGoogleLogin = async () => {
-    setGoogleLoading(true);
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
       });
     } catch (err) {
       console.error(err);
-      toast.error("Could not complete Google login.");
-    } finally {
-      setGoogleLoading(false);
+      toast.error("Failed to login with Google");
     }
   };
 
@@ -142,8 +126,6 @@ export default function Register() {
                 placeholder="Enter your name"
                 type="text"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
                 startContent={<User className="w-5 h-5 text-base-content/40" />}
                 className="bg-transparent text-base-content font-semibold"
               />
@@ -159,8 +141,6 @@ export default function Register() {
                 placeholder="Enter your email"
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 startContent={<Mail className="w-5 h-5 text-base-content/40" />}
                 className="bg-transparent text-base-content font-semibold"
               />
@@ -175,8 +155,6 @@ export default function Register() {
                 placeholder="https://images.unsplash.com/..."
                 type="url"
                 name="image"
-                value={formData.image}
-                onChange={handleChange}
                 startContent={<ImageIcon className="w-5 h-5 text-base-content/40" />}
                 className="bg-transparent text-base-content font-semibold"
               />
@@ -192,8 +170,6 @@ export default function Register() {
                 placeholder="••••••••"
                 type="password"
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
                 isInvalid={!!passwordError}
                 errorMessage={passwordError}
                 startContent={<Lock className="w-5 h-5 text-base-content/40" />}
@@ -226,4 +202,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;

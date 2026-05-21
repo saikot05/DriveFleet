@@ -1,6 +1,6 @@
 import { Gauge, Settings2, Fuel, Users, Zap, Palette } from "lucide-react";
 
-export default function DetailCarCard({ car }) {
+const DetailCarCard = ({ car }) => {
   return (
     <div className="bg-base-100 rounded-3xl p-6 md:p-8 shadow-xl border border-base-200/60">
       <h3 className="text-lg font-bold mb-6 text-base-content flex items-center gap-2">
@@ -70,3 +70,6 @@ export default function DetailCarCard({ car }) {
     </div>
   );
 }
+
+
+export default DetailCarCard;

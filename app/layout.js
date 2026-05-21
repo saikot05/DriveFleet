@@ -13,7 +13,7 @@ export const metadata = {
     "DriveFleet offers premium vehicles, flexible rental plans, and seamless booking. Drive more, worry less.",
 };
 
-export default function RootLayout({ children }) {
+const RootLayout = ({ children }) => {
   return (
     <html
       lang="en"
@@ -31,3 +31,5 @@ export default function RootLayout({ children }) {
   );
 }
  
+
+export default RootLayout;

@@ -114,7 +114,6 @@ const AddCarPage = () => {
     return (
         <main className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-50 via-purple-50/10 to-slate-100/40 dark:from-slate-950 dark:via-zinc-900/50 dark:to-black py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
             <div className="max-w-6xl mx-auto">
-                {/* Header Section */}
                 <div className="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-8 md:p-12 mb-8 shadow-xl border border-white/10">
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-purple-600/15 rounded-full blur-[100px] pointer-events-none"></div>
                     <div className="relative z-10">
@@ -132,10 +131,8 @@ const AddCarPage = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                        {/* Left Column - Main Details */}
                         <div className="xl:col-span-8 space-y-8">
                             
-                            {/* General Info Card */}
                             <div className="bg-base-100 rounded-3xl shadow-lg border border-base-200/60 overflow-hidden">
                                 <div className="p-6 md:p-8 border-b border-base-200/60 bg-base-200/20">
                                     <h3 className="text-lg font-bold flex items-center gap-2 text-base-content">
@@ -163,7 +160,6 @@ const AddCarPage = () => {
                                 </div>
                             </div>
 
-                            {/* Specifications Card */}
                             <div className="bg-base-100 rounded-3xl shadow-lg border border-base-200/60 overflow-hidden">
                                 <div className="p-6 md:p-8 border-b border-base-200/60 bg-base-200/20">
                                     <h3 className="text-lg font-bold flex items-center gap-2 text-base-content">
@@ -192,7 +188,6 @@ const AddCarPage = () => {
                                 </div>
                             </div>
 
-                            {/* Media & Details Card */}
                             <div className="bg-base-100 rounded-3xl shadow-lg border border-base-200/60 overflow-hidden">
                                 <div className="p-6 md:p-8 border-b border-base-200/60 bg-base-200/20">
                                     <h3 className="text-lg font-bold flex items-center gap-2 text-base-content">
@@ -214,10 +209,8 @@ const AddCarPage = () => {
 
                         </div>
 
-                        {/* Right Column - Pricing & Publishing */}
                         <div className="xl:col-span-4 space-y-8">
                             
-                            {/* Pricing & Category */}
                             <div className="bg-base-100 rounded-3xl shadow-lg border border-base-200/60 overflow-hidden">
                                 <div className="p-6 border-b border-base-200/60 bg-base-200/20">
                                     <h3 className="text-lg font-bold flex items-center gap-2 text-base-content">
@@ -261,7 +254,6 @@ const AddCarPage = () => {
                                 </div>
                             </div>
 
-                            {/* Publish Settings */}
                             <div className="bg-base-100 rounded-3xl shadow-lg border border-base-200/60 overflow-hidden sticky top-24">
                                 <div className="p-6 border-b border-base-200/60 bg-base-200/20">
                                     <h3 className="text-lg font-bold flex items-center gap-2 text-base-content">

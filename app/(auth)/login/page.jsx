@@ -9,26 +9,18 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { signIn } from "@/lib/auth-client";
 
-export default function Login() {
+const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const user = Object.fromEntries(form.entries());
-    console.log(user);
+
 
     setLoading(true);
 
@@ -53,17 +45,13 @@ export default function Login() {
   };
 
   const handleGoogleLogin = async () => {
-    setGoogleLoading(true);
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
       });
     } catch (err) {
       console.error(err);
-      toast.error("Could not complete Google login.");
-    } finally {
-      setGoogleLoading(false);
+      toast.error("Failed to login with Google");
     }
   };
 
@@ -113,8 +101,6 @@ export default function Login() {
                 placeholder="Enter your email"
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 startContent={<Mail className="w-5 h-5 text-base-content/40" />}
                 className="bg-transparent text-base-content font-semibold"
               />
@@ -130,8 +116,6 @@ export default function Login() {
                 placeholder="••••••••"
                 type="password"
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
                 startContent={<Lock className="w-5 h-5 text-base-content/40" />}
                 className="bg-transparent text-base-content font-semibold"
               />
@@ -171,4 +155,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;
