@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getCarById } from "@/lib/cars/data";
-import CarDetailsClient from "./CarDetailsClient";
+import CarDetailsClient from "../../../components/CarDetailsClient";
 
 const CarDetailsPage = async ({ params }) => {
     const { id } = await params;
