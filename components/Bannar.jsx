@@ -66,10 +66,10 @@ const Bannar = () => {
             </p>
             
             <Link 
-              href="/explore-cars" 
+              href="/cars" 
               className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-violet-600 to-purple-500 text-white font-bold text-lg hover:opacity-90 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] no-underline"
             >
-              Live Preview
+              Explore Cars
               <LuArrowRight className="group-hover:translate-x-1.5 transition-transform duration-300" size={20} />
             </Link>
           </div>
