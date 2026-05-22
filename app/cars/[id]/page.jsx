@@ -10,7 +10,7 @@ const CarDetailsPage = async ({ params }) => {
         headers: await headers()
     });
 
-    const { token } = await auth.api.getToken({
+    const  token  = await auth.api.getToken({
         headers: await headers()
     });
     console.log("Token in CarDetailsPage:", token);
