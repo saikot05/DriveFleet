@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { Car, DollarSign, MapPin, Users, Settings2, FileText, Image as ImageIcon, Sparkles, AlertCircle, CheckCircle, Info } from "lucide-react";
 import toast from "react-hot-toast";
 import { addCar } from "@/lib/cars/data";
@@ -69,8 +69,8 @@ const AddCarPage = () => {
             };
             
             delete payload.price;
-
-            const res = await addCar(payload);
+            const {data: tokenData} = await authClient.token();
+            const res = await addCar(payload, tokenData?.token);
             
             if (res.ok) {
                 toast.success("Car added successfully!");

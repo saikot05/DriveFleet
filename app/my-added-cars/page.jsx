@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { getCarsByOwner, updateCar, deleteCar } from "@/lib/cars/data";
 import { 
   Sparkles, 
@@ -94,8 +94,8 @@ const MyAddedCarsPage = () => {
         ...editForm,
         price_per_day: Number(editForm.price_per_day)
       };
-
-      const res = await updateCar(selectedCar._id, updatedPayload);
+      const {data: tokenData} = await authClient.token();
+      const res = await updateCar(selectedCar._id, updatedPayload, tokenData?.token);
 
       if (res.ok) {
         toast.success("Car updated successfully!");
@@ -118,7 +118,8 @@ const MyAddedCarsPage = () => {
 
     setIsActionLoading(true);
     try {
-      const res = await deleteCar(selectedCar._id);
+      const {data: tokenData} = await authClient.token();
+      const res = await deleteCar(selectedCar._id, tokenData?.token);
 
       if (res.ok) {
         toast.success("Listed car deleted successfully.");
