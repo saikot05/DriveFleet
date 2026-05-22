@@ -6,14 +6,23 @@ import CarDetailsClient from "../../../components/CarDetailsClient";
 const CarDetailsPage = async ({ params }) => {
     const { id } = await params;
 
-    const session = await auth.api.getSession({
-        headers: await headers()
-    });
+    let session = null;
+    let token = null;
 
-    const  token  = await auth.api.getToken({
-        headers: await headers()
-    });
+    try {
+        session = await auth.api.getSession({
+            headers: await headers()
+        });
+
+        token = await auth.api.getToken({
+            headers: await headers()
+        });
+    } catch (authError) {
+        console.error("Auth token fetch failed:", authError);
+    }
+
     console.log("Token in CarDetailsPage:", token);
+    
     const car = await getCarById(id, token);
 
     return (

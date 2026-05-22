@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
     ArrowLeft, Star, MapPin, CheckCircle, ShieldCheck,
     X, Check, Phone, Mail, User
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { createBooking } from "@/lib/cars/data";
 import { Spinner } from "@heroui/react";
 import DetailCarCard from "@/components/DetailCarCard";
 
@@ -29,6 +29,13 @@ const CarDetailsClient = ({ car, user, token }) => {
         specialNote: ""
     });
 
+    // Keep state in sync if the server props update dynamically
+    useEffect(() => {
+        if (car) {
+            setIsBooked(!car.available);
+        }
+    }, [car?.available]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -45,7 +52,7 @@ const CarDetailsClient = ({ car, user, token }) => {
     };
 
     const days = calculateDays();
-    const totalPrice = car ? days * car.price_per_day : 0;
+    const totalPrice = car && days > 0 ? days * car.price_per_day : 0;
 
     const handleBookingSubmit = async (e) => {
         e.preventDefault();
@@ -74,7 +81,7 @@ const CarDetailsClient = ({ car, user, token }) => {
 
         const bookingPayload = {
             carId: car._id,
-            userId: user?.id || "",
+            userId: user?.id || null, // Sent as null instead of "" to prevent DB layout validation errors
             make: car.make,
             model: car.model,
             image: car.image,
@@ -100,6 +107,7 @@ const CarDetailsClient = ({ car, user, token }) => {
                 },
                 body: JSON.stringify(bookingPayload)
             });
+            
             console.log("STATUS:", res.status);
             if (res.ok) {
                 toast.success("Ride Booked Successfully!");
@@ -146,18 +154,25 @@ const CarDetailsClient = ({ car, user, token }) => {
                     <div className="lg:col-span-7 flex flex-col gap-6">
                         <div className="relative h-[300px] md:h-[450px] w-full rounded-3xl overflow-hidden shadow-2xl border border-base-200">
                             {car.image ? (
-                                <img src={car.image} alt={`${car.make} ${car.model}`} className="w-full h-full object-cover" />
+                                <Image 
+                                    src={car.image} 
+                                    alt={`${car.make} ${car.model}`} 
+                                    fill 
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    priority
+                                    className="object-cover" 
+                                />
                             ) : (
                                 <div className="w-full h-full bg-slate-200 dark:bg-zinc-800 flex items-center justify-center">
                                     <span className="text-xl font-bold opacity-30">No Image Available</span>
                                 </div>
                             )}
-                            <div className="absolute top-4 left-4">
+                            <div className="absolute top-4 left-4 z-10">
                                 <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-950/80 backdrop-blur-md text-white border border-white/10 uppercase tracking-widest">
                                     {car.category}
                                 </span>
                             </div>
-                            <div className="absolute top-4 right-4">
+                            <div className="absolute top-4 right-4 z-10">
                                 <span className={`px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg border border-white/10 ${!isBooked ? "bg-success" : "bg-error"}`}>
                                     {!isBooked ? "Available for Rent" : "Currently Booked"}
                                 </span>
