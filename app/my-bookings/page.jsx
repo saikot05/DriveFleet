@@ -20,9 +20,9 @@ const MyBookingsPage = () => {
     const fetchBookings = async () => {
         setLoading(true);
         try {
-            const tokenData = await authClient.token();
-            const token = tokenData?.data?.token;
-            const data = await getBookings(user?.email, token);
+            const {data: tokenData} = await authClient.token();
+            
+            const data = await getBookings(user?.email, tokenData?.token);
             setBookings(data || []);
         } catch (err) {
             console.error("Error fetching bookings:", err);
@@ -35,7 +35,7 @@ const MyBookingsPage = () => {
         if (!isPending) {
             fetchBookings();
         }
-    }, [user, isPending]);
+    }, [user?.email, isPending]);
 
     const handleCancelBooking = async (bookingId, carId) => {
         setCancellingId(bookingId);
