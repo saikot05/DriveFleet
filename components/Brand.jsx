@@ -1,7 +1,7 @@
 const brands = [
     { name: "Toyota",     slug: "toyota",        color: "#EB0A1E", adaptive: false },
     { name: "BMW",        slug: "bmw",           color: "#0066B1", adaptive: false },
-    { name: "Mercedes",   slug: "mercedes",      color: "#888",    adaptive: true  },
+    { name: "Mercedes",   slug: "mercedes",      color: "#888",    adaptive: false  },
     { name: "Audi",       slug: "audi",          color: "#BB0A14", adaptive: false },
     { name: "Ford",       slug: "ford",          color: "#003478", adaptive: false },
     { name: "Honda",      slug: "honda",         color: "#CC0000", adaptive: false },
