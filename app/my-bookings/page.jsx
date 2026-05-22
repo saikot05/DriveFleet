@@ -41,7 +41,7 @@ const MyBookingsPage = () => {
         setCancellingId(bookingId);
         try {
             const {data: tokenData} = await authClient.token();
-            const res = await deleteBooking(bookingId, carId);
+            const res = await deleteBooking(bookingId, carId, tokenData?.token);
 
             if (res.ok) {
                 toast.success("Booking cancelled successfully.");
