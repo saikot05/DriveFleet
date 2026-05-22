@@ -80,8 +80,7 @@ const CarDetailsClient = ({ car, user }) => {
 
         setBookingLoading(true);
         const {data: tokenData} = await authClient.token();
-        console.log("tokenData:", JSON.stringify(tokenData));
-        console.log("token:", tokenData?.token);
+        
         const bookingPayload = {
             carId: car._id,
             userId: user?.id || null, // Sent as null instead of "" to prevent DB layout validation errors

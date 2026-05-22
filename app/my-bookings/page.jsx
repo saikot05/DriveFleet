@@ -12,7 +12,7 @@ import { Spinner } from "@heroui/react";
 const MyBookingsPage = () => {
     const { data: session, isPending } = useSession();
     const user = session?.user;
-    console.log(user);
+    
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cancellingId, setCancellingId] = useState(null);
