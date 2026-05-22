@@ -40,6 +40,7 @@ const MyBookingsPage = () => {
     const handleCancelBooking = async (bookingId, carId) => {
         setCancellingId(bookingId);
         try {
+            const {data: tokenData} = await authClient.token();
             const res = await deleteBooking(bookingId, carId);
 
             if (res.ok) {
