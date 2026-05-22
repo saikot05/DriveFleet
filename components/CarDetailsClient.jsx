@@ -11,10 +11,11 @@ import {
 import toast from "react-hot-toast";
 import { Spinner } from "@heroui/react";
 import DetailCarCard from "@/components/DetailCarCard";
+import { authClient, useSession } from "@/lib/auth-client";
 
-const CarDetailsClient = ({ car, user, token }) => {
+const CarDetailsClient = ({ car, user }) => {
     const router = useRouter();
-
+    const {data: session} = useSession();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isBooked, setIsBooked] = useState(!car?.available);
     const [bookingLoading, setBookingLoading] = useState(false);
@@ -78,6 +79,7 @@ const CarDetailsClient = ({ car, user, token }) => {
         }
 
         setBookingLoading(true);
+        const {data: tokenData} = await authClient.token();
 
         const bookingPayload = {
             carId: car._id,
@@ -103,7 +105,7 @@ const CarDetailsClient = ({ car, user, token }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${tokenData?.token}`
                 },
                 body: JSON.stringify(bookingPayload)
             });
