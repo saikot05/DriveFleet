@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 const brands = [
     { name: "Toyota", slug: "toyota", color: "#EB0A1E" },
