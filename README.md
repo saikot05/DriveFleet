@@ -36,15 +36,7 @@ The platform relies completely on custom interactive UI overlays and elegant sna
 
 ---
 
-## 📸 Screenshots
 
-> Add your project screenshots here after deployment
-
-| Home Page | Explore Cars | Admin Panel |
-|-----------|-------------|-------------|
-| ![Home](./screenshots/home.png) | ![Explore](./screenshots/explore.png) | ![Admin](./screenshots/admin.png) |
-
----
 
 ## ✨ Key Platform Features
 
